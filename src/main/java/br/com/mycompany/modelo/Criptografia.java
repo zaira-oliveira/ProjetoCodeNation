@@ -1,11 +1,12 @@
 package br.com.mycompany.modelo;
 
 import br.com.mycompany.enums.Letras;
+import java.security.*;
 import java.util.Scanner;
 
 public class Criptografia {
 
-    public static void executa(int resposta) {
+    public static void executa(int resposta) throws NoSuchAlgorithmException {
         Scanner sc = new Scanner(System.in);
         if (resposta == 1) {
             String texto = "";
@@ -24,6 +25,7 @@ public class Criptografia {
                 }
             }
             System.out.println(texto);
+            System.out.println("SHA1:" + SHA1(texto));
 
         } else if (resposta == 2) {
             String texto = "";
@@ -42,6 +44,7 @@ public class Criptografia {
                 }
             }
             System.out.println(texto);
+            System.out.println("SHA1:" + SHA1(texto));
 
         } else if (resposta == 3) {
             System.exit(0);
@@ -65,4 +68,15 @@ public class Criptografia {
         return valida;
     }
 
+    public static String SHA1(String input) throws NoSuchAlgorithmException {
+            MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+            mDigest.update(input.getBytes());
+            
+            byte[] result = mDigest.digest();
+            StringBuffer sb = new StringBuffer();
+            for (byte b : result) {
+                sb.append(String.format("%02x", b & 0xff));
+            }
+            return sb.toString();
+    }
 }
